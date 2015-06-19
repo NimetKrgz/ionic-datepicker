@@ -116,10 +116,10 @@ angular.module('ionic-datepicker', ['ionic', 'ionic-datepicker.templates'])
               scope.date_selection = { selected: false, selectedDate: '', submitted: false };
 
               scope.dateSelected = function (date) {
-                  scope.selctedDateString = date.dateString;
+                  scope.selctedDateString = date.dateString || date.toString();
                   scope.date_selection.selected = true;
-                  scope.date_selection.selectedDate = new Date(date.dateString);
-                  currentDate = new Date(date.dateString);
+                  scope.date_selection.selectedDate = new Date(date.dateString || date.toDateString());
+                  currentDate = new Date(date.dateString || date.toDateString());
                   refreshDateList(currentDate);
               };
 
@@ -160,7 +160,9 @@ angular.module('ionic-datepicker', ['ionic', 'ionic-datepicker.templates'])
                             text: 'Today',
                             onTap: function (e) {
                                 scope.dateSelected(new Date());
-                                refreshDateList(new Date());
+                                scope.currentMonth = scope.monthsList[scope.date_selection.selectedDate.getMonth()];
+                                scope.currentYear = scope.date_selection.selectedDate.getFullYear();
+                                //refreshDateList(new Date());
                                 e.preventDefault();
                             }
                         },
